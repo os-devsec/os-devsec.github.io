@@ -12,23 +12,29 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function Post({ params }: { params: { slug: string } }) {
-  const post = postsConfig.posts.find(p => p.slug === `posts/${params.slug}`);
+export default async function Post({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const post = postsConfig.posts.find(p => p.slug === `posts/${slug}`);
 
   if (!post) {
     notFound();
   }
 
-  // 读取静态 HTML 文件
   const postSlug = post.slug.replace('posts/', '');
-  const postHtmlPath = path.join(process.cwd(), 'src/app/posts', postSlug, 'page.html');
-  let postHtml = '';
-  
+  const postHtmlPath = path.join(
+    process.cwd(),
+    'generated',
+    'posts',
+    `${postSlug}.html`
+  );
+  let postHtml: string = post.html;
+
   try {
     postHtml = await fs.readFile(postHtmlPath, 'utf8');
   } catch (error) {
-    console.error(`Error reading HTML file for ${postSlug}:`, error);
-    postHtml = post.html; // 如果读取失败，使用配置中的 HTML
+    if (process.env.NODE_ENV !== 'production') {
+      console.warn(`Falling back to config HTML for ${postSlug}:`, error);
+    }
   }
 
   return (

@@ -52,14 +52,14 @@ for (const file of files) {
     
     posts.push(post);
 
-    // 生成静态 HTML 文件
     const postSlug = post.slug.replace('posts/', '');
-    const postHtmlPath = path.join(__dirname, '../src/app/posts', postSlug, 'page.html');
-    
-    // 确保目录存在
+    const postHtmlPath = path.join(
+      __dirname,
+      '../generated/posts',
+      `${postSlug}.html`
+    );
+
     fs.mkdirSync(path.dirname(postHtmlPath), { recursive: true });
-    
-    // 写入 HTML 文件
     fs.writeFileSync(postHtmlPath, html);
   }
 }
