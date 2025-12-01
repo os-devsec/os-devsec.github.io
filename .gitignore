@@ -9,6 +9,9 @@ dist/
 .env
 .env.production
 
+# Git credentials (sensitive)
+.git-credentials
+
 # macOS-specific files
 .DS_Store
 
