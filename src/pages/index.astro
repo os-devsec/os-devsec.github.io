@@ -11,9 +11,6 @@ import Footer from "../components/Footer.astro";
     <meta name="generator" content={Astro.generator} />
     <title>Someone's Portfolio</title>
     <meta name="description" content="A showcase of my work and thoughts" />
-    <script
-      src="https://cdnstatic.tencentcs.com/edgeone/pages/assets/unified.js"
-      data-set="mode=fab"></script>
     <script>
       // 主题切换功能
       document.addEventListener("DOMContentLoaded", function () {
@@ -145,7 +142,10 @@ import Footer from "../components/Footer.astro";
               <div
                 class="w-[45%] flex items-center justify-center bg-transparent overflow-hidden"
               >
-                <div class="relative overflow-hidden" style="width: min(700px, 45vw); height: min(700px, 70vh); max-width: 100%; max-height: 70vh;">
+                <div
+                  class="relative overflow-hidden"
+                  style="width: min(700px, 45vw); height: min(700px, 70vh); max-width: 100%; max-height: 70vh;"
+                >
                   <!-- 白色主题时显示外部SVG图片 -->
                   <img
                     src="https://multiplepage-portfolio.edgeone.app/assets/images/tech-background-light.svg"
