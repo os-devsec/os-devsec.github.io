@@ -12,9 +12,9 @@ import { siteConfig, homeContent } from "../config/content.ts";
     <meta name="generator" content={Astro.generator} />
     <title>{siteConfig.title}</title>
     <meta name="description" content={siteConfig.description} />
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const savedTheme = localStorage.getItem("theme") || "light";
+    <script is:inline>
+      (function () {
+        const savedTheme = localStorage.getItem("theme") || "dark";
         const prefersDark = window.matchMedia(
           "(prefers-color-scheme: dark)"
         ).matches;
@@ -30,7 +30,10 @@ import { siteConfig, homeContent } from "../config/content.ts";
         } else {
           document.documentElement.classList.remove("dark");
         }
-
+      })();
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
         window
           .matchMedia("(prefers-color-scheme: dark)")
           .addEventListener("change", (e) => {

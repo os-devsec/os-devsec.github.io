@@ -18,9 +18,9 @@ const postsData = JSON.stringify(allPosts);
     <meta name="generator" content={Astro.generator} />
     <title>Blog Posts - Your Portfolio</title>
     <meta name="description" content="Read my latest blog posts and articles" />
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const savedTheme = localStorage.getItem("theme") || "light";
+    <script is:inline>
+      (function () {
+        const savedTheme = localStorage.getItem("theme") || "dark";
         const prefersDark = window.matchMedia(
           "(prefers-color-scheme: dark)"
         ).matches;
@@ -36,7 +36,10 @@ const postsData = JSON.stringify(allPosts);
         } else {
           document.documentElement.classList.remove("dark");
         }
-
+      })();
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
         window
           .matchMedia("(prefers-color-scheme: dark)")
           .addEventListener("change", (e) => {

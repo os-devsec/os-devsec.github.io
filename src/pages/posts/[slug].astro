@@ -38,9 +38,9 @@ if (!Content) {
     <meta name="generator" content={Astro.generator} />
     <title>{frontmatter.title} - Your Portfolio</title>
     <meta name="description" content={frontmatter.description} />
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const savedTheme = localStorage.getItem("theme") || "light";
+    <script is:inline>
+      (function () {
+        const savedTheme = localStorage.getItem("theme") || "dark";
         const prefersDark = window.matchMedia(
           "(prefers-color-scheme: dark)"
         ).matches;
@@ -56,7 +56,10 @@ if (!Content) {
         } else {
           document.documentElement.classList.remove("dark");
         }
-
+      })();
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
         window
           .matchMedia("(prefers-color-scheme: dark)")
           .addEventListener("change", (e) => {
@@ -164,7 +167,7 @@ if (!Content) {
             <time datetime={frontmatter.date || ""}>
               {
                 frontmatter.date
-                  ? new Date(frontmatter.date).toLocaleDateString("zh-CN", {
+                  ? new Date(frontmatter.date).toLocaleDateString("en-US", {
                       year: "numeric",
                       month: "long",
                       day: "numeric",
