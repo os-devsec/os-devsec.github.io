@@ -45,23 +45,45 @@ import Footer from "../components/Footer.astro";
           });
       });
     </script>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow-x: hidden;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      main {
+        flex: 1;
+      }
+      /* 确保Footer紧贴底部 */
+      section[class*="text-gray-700"] {
+        margin: 0;
+        padding: 0;
+        flex-shrink: 0;
+      }
+    </style>
   </head>
-  <body
-    class="min-h-screen flex flex-col bg-white dark:bg-neutral-900 transition-colors duration-300"
-  >
-    <!-- 背景网格 -->
-    <div class="relative flex-grow flex flex-col">
-      <div class="absolute inset-0 z-0">
-        <div
-          class="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:28px_48px] -z-10"
-        >
-        </div>
-        <div
-          class="absolute left-0 right-0 top-0 -z-10 m-auto h-[1200px] w-[1200px] rounded-full bg-neutral-400 opacity-10 blur-[100px]"
-        >
-        </div>
+  <body class="bg-white dark:bg-neutral-900 transition-colors duration-300">
+    <!-- 背景网格 - 覆盖整个body区域 -->
+    <div class="fixed inset-0 z-0 pointer-events-none">
+      <div
+        class="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:28px_48px] -z-10"
+      >
       </div>
+      <div
+        class="absolute left-0 right-0 top-0 -z-10 m-auto h-[1200px] w-[1200px] rounded-full bg-neutral-400 opacity-10 blur-[100px]"
+      >
+      </div>
+    </div>
 
+    <!-- 主要内容区域 - 使用flex: 1填充空间 -->
+    <main class="flex-1 relative z-10">
       <Navigation />
 
       <!-- 主要内容区域 -->
@@ -297,8 +319,9 @@ import Footer from "../components/Footer.astro";
           </div>
         </div>
       </section>
-    </div>
+    </main>
 
+    <!-- Footer - 紧贴底部 -->
     <Footer />
   </body>
 </html>
