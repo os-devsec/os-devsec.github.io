@@ -1,6 +1,7 @@
 ---
 import Navigation from "../components/Navigation.astro";
 import Footer from "../components/Footer.astro";
+import { siteConfig, homeContent } from "../config/content.ts";
 ---
 
 <html lang="en">
@@ -9,8 +10,8 @@ import Footer from "../components/Footer.astro";
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
-    <title>Someone's Portfolio</title>
-    <meta name="description" content="A showcase of my work and thoughts" />
+    <title>{siteConfig.title}</title>
+    <meta name="description" content={siteConfig.description} />
     <script>
       // 主题切换功能
       document.addEventListener("DOMContentLoaded", function () {
@@ -98,19 +99,18 @@ import Footer from "../components/Footer.astro";
                 <h1
                   class="text-3xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100 sm:text-4xl"
                 >
-                  Hello, I'm Your Name
+                  {homeContent.title}
                 </h1>
                 <p
                   class="mt-3 text-lg leading-7 text-neutral-600 dark:text-neutral-400"
                 >
-                  A passionate frontend developer with a keen eye for design and
-                  a love for creating beautiful, functional web experiences.
+                  {homeContent.description}
                 </p>
                 <div class="flex flex-row gap-4 mt-4">
                   <a
                     class="group inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-neutral-900 rounded-lg hover:bg-neutral-800 dark:bg-neutral-100 dark:text-neutral-900 dark:hover:bg-neutral-200 transition-all duration-300 hover:scale-105 cursor-pointer"
-                    href="/about/"
-                    >View About<svg
+                    href={homeContent.buttons.about.href}
+                    >{homeContent.buttons.about.text}<svg
                       class="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1"
                       fill="none"
                       stroke="currentColor"
@@ -124,8 +124,8 @@ import Footer from "../components/Footer.astro";
                   >
                   <a
                     class="group inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-neutral-900 bg-white border border-neutral-300 rounded-lg hover:bg-neutral-50 dark:bg-neutral-800 dark:text-neutral-100 dark:border-neutral-600 dark:hover:bg-neutral-700 transition-all duration-300 hover:scale-105 cursor-pointer"
-                    href="/posts/"
-                    >Read Posts<svg
+                    href={homeContent.buttons.posts.href}
+                    >{homeContent.buttons.posts.text}<svg
                       class="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1"
                       fill="none"
                       stroke="currentColor"
@@ -148,7 +148,7 @@ import Footer from "../components/Footer.astro";
                 >
                   <!-- 白色主题时显示外部SVG图片 -->
                   <img
-                    src="https://multiplepage-portfolio.edgeone.app/assets/images/tech-background-light.svg"
+                    src={homeContent.images.light}
                     alt="Tech Background"
                     class="w-full h-full object-contain animate-[float_15s_ease-in-out_infinite] hover:scale-125 transition-transform duration-300 opacity-90 dark:hidden"
                     style="max-width: 100%; max-height: 100%;"
@@ -156,7 +156,7 @@ import Footer from "../components/Footer.astro";
 
                   <!-- 暗黑主题时显示SVG图片 -->
                   <img
-                    src="/assets/images/tech-background-dark.svg"
+                    src={homeContent.images.dark}
                     alt="Tech Background Dark"
                     class="w-full h-full object-contain animate-[float_15s_ease-in-out_infinite] hover:scale-125 transition-transform duration-300 opacity-90 hidden dark:block"
                     style="max-width: 100%; max-height: 100%;"
