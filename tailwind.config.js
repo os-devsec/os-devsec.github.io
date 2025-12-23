@@ -6,9 +6,11 @@ export default {
       colors: {
         primary: '#2563eb',
         secondary: '#001e60',
+        third_d: '#020618',
+        third_l: '#c4e5ff',
         accent: '#004aad',
         dark: '#111124',
-        white: '#e6edf3'
+        light: '#e6edf3'
       },
     },
   },

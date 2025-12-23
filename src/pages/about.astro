@@ -95,55 +95,77 @@ import { aboutContent } from "../config/content.ts";
       </div>
 
       <Navigation />
-      <section class="relative z-20 w-[896px] mx-auto mt-24 mb-12">
-        <div class="relative z-20 w-full mx-auto lg:mx-0">
-          <h2
-            class="text-2xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100 sm:text-3xl lg:text-4xl"
-          >
-            {aboutContent.title}
-          </h2>
-          <div class="flex flex-col md:flex-row gap-8 mt-3 sm:mt-4 lg:mt-6">
-            <div class="w-full md:w-1/2 flex flex-col">
+      <section class="relative z-20 max-w-5xl w-full mx-auto px-4 sm:px-6 mt-16 mb-12">
+        <div class="flex flex-col md:flex-row mt-10 gap-12 md:gap-20">
+          <div class="w-full md:w-1.3/3">
+            <div class="relative w-full">
+                <h2
+                  class="text-2xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100 sm:text-3xl lg:text-4xl"
+                >
+                  {aboutContent.title}
+                </h2>
+
+                <div class="flex flex-col gap-6 mt-4">
+                  <div class="w-full flex justify-center">
+                    <div class="relative w-full max-w-xs sm:max-w-sm md:max-w-[445px] aspect-square">
+                      <img
+                        src={aboutContent.image.src}
+                        alt={aboutContent.image.alt}
+                        class="object-cover rounded-xl w-full h-full"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="w-full flex flex-col">
+                    <p
+                      class="text-sm leading-6 text-gray-600 dark:text-neutral-400 sm:leading-7 lg:leading-8 sm:text-base lg:text-lg"
+                    >
+                      {aboutContent.description}
+                    </p>
+                    <div class="mt-4 pt-2 flex flex-wrap gap-2">
+                      {
+                        aboutContent.skills.map((skill) => (
+                          <span class="px-3 py-1 text-sm bg-neutral-200 dark:bg-neutral-700 text-neutral-700 dark:text-neutral-200 rounded-full">
+                            {skill}
+                          </span>
+                        ))
+                      }
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            <h2 class="mt-6 mb-2 text-xl sm:text-2xl font-bold dark:text-neutral-200">
+              {aboutContent.connect.title}
+            </h2>
+            <div class="py-4">
               <p
-                class="text-sm leading-6 text-gray-600 dark:text-neutral-400 sm:leading-7 lg:leading-8 sm:text-base lg:text-lg"
+                class="text-sm leading-6 text-gray-600 dark:text-neutral-400 sm:leading-7 sm:text-base"
               >
-                {aboutContent.description}
+                {aboutContent.connect.description}
+                <a
+                  href={aboutContent.connect.email.href}
+                  class="text-accent underline"
+                >
+                  {aboutContent.connect.email.text}
+                </a>
+                .
               </p>
-              <div class="mt-auto pt-4 flex flex-wrap gap-2">
-                {
-                  aboutContent.skills.map((skill) => (
-                    <span class="px-3 py-1 text-sm bg-neutral-200 dark:bg-neutral-700 text-neutral-700 dark:text-neutral-200 rounded-full">
-                      {skill}
-                    </span>
-                  ))
-                }
-              </div>
-            </div>
-            <div class="w-full md:w-1/2 flex justify-end">
-              <div class="relative w-[360px] h-[360px]">
-                <img
-                  src={aboutContent.image.src}
-                  alt={aboutContent.image.alt}
-                  class="object-cover rounded-xl w-full h-full"
-                />
-              </div>
             </div>
           </div>
-        </div>
 
-        <div class="flex flex-col md:flex-row mt-20">
-          <div class="flex-1">
+          <div class="w-full md:w-1.7/3">
             <h2 class="mb-2 text-2xl font-bold dark:text-neutral-200">
               {aboutContent.experience.title}
             </h2>
-            <div class="py-10">
+            <div class="py-6">
               {
                 aboutContent.experience.items.map((item) => (
-                  <div class="pb-10 border-l border-gray-200 last:border-l-0 dark:border-neutral-700">
-                    <div class="relative flex flex-col justify-start pl-12">
-                      <div class="absolute top-0 left-0 z-40 flex items-center justify-center -translate-x-1/2 bg-white border rounded-full dark:bg-neutral-950 w-14 h-14 border-neutral-300 dark:border-neutral-700">
+                  <div class="pb-8 border-l border-gray-200 last:border-l-0 dark:border-neutral-700">
+                    <div class="relative flex flex-col justify-start pl-10 sm:pl-12">
+                      <div class="absolute top-0 left-0 z-40 flex items-center justify-center -translate-x-1/2 bg-white border rounded-full dark:bg-neutral-950 w-12 h-12 sm:w-14 sm:h-14 border-neutral-300 dark:border-neutral-700">
                         <svg
-                          class="w-8 h-8 text-neutral-700 dark:text-neutral-300"
+                          class="w-6 h-6 sm:w-8 sm:h-8 text-primary dark:text-primary"
                           fill="none"
                           viewBox="0 0 24 24"
                           stroke="currentColor"
@@ -166,7 +188,13 @@ import { aboutContent } from "../config/content.ts";
                         {item.company}
                       </p>
                       <p class="text-sm font-light text-neutral-600 dark:text-neutral-400">
-                        {item.description}
+                        {
+                          Array.isArray(item.description)
+                            ? item.description.map((desc: string) => (
+                                <span>{desc}<br /><br /></span>
+                              ))
+                            : item.description
+                        }
                       </p>
                     </div>
                   </div>
@@ -175,25 +203,6 @@ import { aboutContent } from "../config/content.ts";
             </div>
           </div>
 
-          <div class="w-[360px] ml-8">
-            <h2 class="mb-2 text-2xl font-bold dark:text-neutral-200">
-              {aboutContent.connect.title}
-            </h2>
-            <div class="py-[30px]">
-              <p
-                class="text-sm leading-6 text-gray-600 dark:text-neutral-400 sm:leading-7 lg:leading-8 sm:text-base lg:text-lg"
-              >
-                {aboutContent.connect.description}
-                <a
-                  href={aboutContent.connect.email.href}
-                  class="text-indigo-600 underline"
-                >
-                  {aboutContent.connect.email.text}
-                </a>
-                .
-              </p>
-            </div>
-          </div>
         </div>
       </section>
     </div>

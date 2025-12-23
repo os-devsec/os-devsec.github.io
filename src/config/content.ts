@@ -1,6 +1,6 @@
 export const siteConfig = {
-  name: "Your Portfolio",
-  title: "Someone's Portfolio",
+  name: "Oscar Portfolio",
+  title: "Os-DevSec Portfolio",
   description: "A showcase of my work and thoughts",
   social: {
     github: "https://github.com/os-devsec",
@@ -36,43 +36,55 @@ export const aboutContent = {
   },
   title: "About Me",
   description:
-    "This is where you can introduce yourself or your company. Share your story, mission, and values. Explain what makes you unique and why people should be interested in your work. Keep it concise but engaging.",
+    "I'm Oscar, a student focused on cybersecurity, learning through hands-on labs, projects, and secure development practices. Working with me means collaborating with a motivated student who combines technical skills with proven leadership experience as President of the Computer Science Students Association.",
   skills: [
-    "Next.js",
-    "React",
-    "TypeScript",
-    "Tailwind CSS",
-    "Node.js",
-    "Docker",
+    "Linux",
+    "Bash",
+    "Python",
+    "Golang",
+    "SQL",
+    "SIEM",
+    "IDS",
+    "Networking Basics",
     "Git",
     "AWS",
   ],
   image: {
-    src: "/assets/images/about/coder.jpg",
+    src: "/assets/images/about/perfil_sc.png",
     alt: "Profile",
   },
   experience: {
     title: "Experience",
     items: [
       {
-        period: "2022 - Present",
-        position: "Senior Frontend Developer",
-        company: "Tencent Cloud",
-        description:
-          "Leading frontend development for EdgeOne platform and templates.",
+        period: "Jan 2025 - Aug 2025",
+        position: "IT Support Assistant (Semester Breaks)",
+        company: "UIDE",
+        description: [
+            "Performed disk cloning, software installation, and system setup for institutional equipment.",
+            "Assembled and deployed a new computer lab, including hardware preparation and operating system configuration.",
+            "Provided basic technical support and maintenance for academic environments.",
+        ]
       },
       {
-        period: "2020 - 2022",
-        position: "Frontend Developer",
-        company: "Tencent Cloud",
+        period: "2024 - Present",
+        position: "Cybersecurity Student",
+        company: "UIDE",
         description:
-          "Developed and maintained multiple web applications and tools.",
+        [
+          "Designed and executed a phishing awareness campaign using GoPhish and Evilginx in an academic environment, achieving 3rd place in a faculty-wide project competition.",
+          "Conducted hands-on cybersecurity labs using Wazuh and pfSense, gaining practical experience in monitoring, detection, and network security.",
+          "Regularly document cybersecurity write-ups and challenge solutions, strengthening practical skills in analysis, exploitation, and defense.",
+        ]
       },
       {
-        period: "2018 - 2020",
-        position: "Junior Developer",
-        company: "Tencent Cloud",
-        description: "Worked on various client projects and internal tools.",
+        period: "2024 - Present",
+        position: "President",
+        company: "Computer Science Students Association",
+        description: [
+          "Worked on various client projects and internal tools.Organized and led technical talks and events with professionals specialized in cybersecurity, fostering knowledge sharing and community engagement.",
+          "Coordinated teams, managed logistics, and worked with academic authorities, developing strong leadership and communication skills.",
+        ]
       },
     ],
   },
@@ -82,7 +94,7 @@ export const aboutContent = {
       "Feel free to reach out if you want to collaborate or just say hi! You can find us on social media or drop us an",
     email: {
       text: "email",
-      href: "mailto:364786053@qq.com",
+      href: "mailto:oscaral.lara@gmail.com",
     },
   },
 };
@@ -108,7 +120,7 @@ export const projectsContent = {
       description:
         "Describe your second project here. Highlight the key features and your role in development.",
       image: "/assets/images/projects/project2.jpg",
-      href: "#",
+      href: "/posts/database-design",
     },
     {
       title: "Project Three",
