@@ -6,6 +6,7 @@ import edgeone from '@edgeone/astro';
 export default defineConfig({
   
   site: 'https://os-devsec.github.io',
+  base: '/os-devsec/',
   adapter: edgeone(),
   integrations: [tailwind()],
   server: {
