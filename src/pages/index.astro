@@ -133,7 +133,7 @@ import { siteConfig, homeContent } from "../config/content.ts";
                 </p>
                 <div class="flex flex-row gap-4 mt-4">
                   <a
-                    class="group inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-neutral-900 rounded-lg hover:bg-neutral-800 dark:bg-neutral-100 dark:text-neutral-900 dark:hover:bg-neutral-200 transition-all duration-300 hover:scale-105 cursor-pointer"
+                    class="group inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white rounded-lg bg-primary dark:text-neutral-900 transition-all duration-300 hover:scale-105 cursor-pointer"
                     href={homeContent.buttons.about.href}
                     >{homeContent.buttons.about.text}<svg
                       class="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1"
@@ -148,7 +148,7 @@ import { siteConfig, homeContent } from "../config/content.ts";
                     ></a
                   >
                   <a
-                    class="group inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-neutral-900 bg-white border border-neutral-300 rounded-lg hover:bg-neutral-50 dark:bg-neutral-800 dark:text-neutral-100 dark:border-neutral-600 dark:hover:bg-neutral-700 transition-all duration-300 hover:scale-105 cursor-pointer"
+                    class="group inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-neutral-900 bg-white border border-neutral-300 rounded-lg hover:bg-neutral-50 dark:bg-neutral-800 dark:text-neutral-100 dark:border-neutral-600 dark:hover:border-primary hover:border-primary transition-all duration-300 hover:scale-105 cursor-pointer"
                     href={homeContent.buttons.posts.href}
                     >{homeContent.buttons.posts.text}<svg
                       class="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1"
@@ -168,21 +168,21 @@ import { siteConfig, homeContent } from "../config/content.ts";
                 class="relative w-[45%] flex items-center justify-center bg-transparent overflow-hidden z-20"
               >
                 <div
-                  class="relative overflow-hidden"
+                  class="relative overflow-hidden items-center justify-center"
                   style="width: min(700px, 45vw); height: min(700px, 70vh); max-width: 100%; max-height: 70vh;"
                 >
                   <img
                     src={homeContent.images.light}
                     alt="Tech Background"
-                    class="w-full h-full object-contain animate-[float_15s_ease-in-out_infinite] hover:scale-125 transition-transform duration-300 opacity-90 dark:hidden"
-                    style="max-width: 100%; max-height: 100%;"
+                    class="justify-center items-center w-[85%] h-[85%] object-contain animate-[float_15s_ease-in-out_infinite] hover:scale-90 transition-transform duration-300 opacity-90 dark:hidden"
+                    style="max-width: 90%; max-height: 90%;"
                   />
 
                   <img
                     src={homeContent.images.dark}
                     alt="Tech Background Dark"
-                    class="w-full h-full object-contain animate-[float_15s_ease-in-out_infinite] hover:scale-125 transition-transform duration-300 opacity-90 hidden dark:block"
-                    style="max-width: 100%; max-height: 100%;"
+                    class="justify-center items-center w-[70%] h-[70%] object-contain animate-[float_15s_ease-in-out_infinite] hover:scale-75 transition-transform duration-300 opacity-90 hidden dark:block"
+                    style="max-width: 75%; max-height: 75%;"
                   />
                 </div>
               </div>

@@ -3,16 +3,16 @@ export const siteConfig = {
   title: "Someone's Portfolio",
   description: "A showcase of my work and thoughts",
   social: {
-    github: "https://github.com/tomcomtang/astro-multiplepage-portfolio",
-    twitter: "https://x.com/astrodotbuild",
-    email: "mailto:364786053@qq.com",
+    github: "https://github.com/os-devsec",
+    email: "mailto:oscaral.lara@gmail.com",
+    linke: "https://www.linkedin.com/in/oscar-lara-b43653349/"
   },
 };
 
 export const homeContent = {
-  title: "Hello, I'm Your Name",
+  title: "Hello, I'm Oscar",
   description:
-    "A passionate frontend developer with a keen eye for design and a love for creating beautiful, functional web experiences.",
+    "A system engineering student passionate about cybersecurity, focused on understanding, building, and securing systems through hands-on projects and continuous learning.",
   buttons: {
     about: {
       text: "View About",
@@ -23,9 +23,9 @@ export const homeContent = {
       href: "/posts/",
     },
   },
-  images: {
-    light: "https://multiplepage-portfolio.edgeone.app/assets/images/tech-background-light.svg",
-    dark: "/assets/images/tech-background-dark.svg",
+  images: { 
+    light: "/assets/images/logo_mono_v3.svg",
+    dark: "/assets/images/logo_mono_v3.svg",
   },
 };
 
