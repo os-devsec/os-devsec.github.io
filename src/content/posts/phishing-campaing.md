@@ -2,137 +2,118 @@
 title: "Phishing Campaing PoC"
 description: "technique PoC of a directed phishing campaign using GoPhish and Evilginx, aimed at obtaining initial access in a controlled environment"
 date: "2025-10-27"
-readTime: "17 min read"
+readTime: "15 min read"
 image: "/assets/images/posts/phishing_campaing/cover.jpg"
 slug: "phishing-ops-red-teaming"
 author: "oscar lara"
 ---
+<p class="my-4 text-sm italic text-center">
+    Disclaimer: This post is for educational purposes only. Always obtain proper authorization before conducting any phishing simulations or security assessments.
+</p>
 
-# Phishing Campaing PoC
+## Phishing Campaign PoC: Emulating Initial Access Techniques
 
 Phishing is still one of the **most effective vectors** to obtain initial access. Despite advances in technical controls, the human factor remains in the preferred entry point for many malicious actors. 
 
-In this post I will explain a project carried out at the university, where I developed a *Proof of concept (PoC)* to emulate a real phishing operation to obtain valid credentials and session tokens without exploiting technical vulnerabilities 
+In this post I will explain a project carried out at the university, where I developed a *Proof of concept (PoC)* to emulate a real phishing operation to obtain valid credentials and session tokens without exploiting technical vulnerabilities. However, the configuration and assembly of the tools will not be explained in technical detail since there is a lot of documentation on the internet about it.
 
-## Tools and Infrastructure
+## Attack profiling and design
 
-Para la ejecución de la operación se utilizaron exclusivamente herramientas **open source** y ampliamente conocidas, lo que refuerza el realismo del escenario.
+The most important step in a phishing campaing is the analysis of the target. Understanding the organization's structure, communication patterns, and key personnel is crucial to design a credible and effective attack.
 
-Por un lado, **GoPhish**, utilizado como plataforma de orquestación de campañas. Aunque el proyecto oficial no destaca por su mantenimiento activo, sigue siendo una herramienta muy potente y, precisamente por ser conocida, permite evaluar cómo responden los controles defensivos frente a técnicas habituales. En este caso se utilizó el fork mantenido por **Kuba Gretzky**, que añade mejoras útiles para integraciones posteriores.
+Also understanding the objective of the attack is essential, compromising a high-profile user like the CEO is not always the most effective approach. Sometimes, in companies a user with less visibility but with access to systems can provide more value.
 
-Por otro lado, **Evilginx**, en su versión gratuita, utilizado para implementar un ataque de tipo *Adversary-in-the-Middle*. Evilginx permite capturar no solo credenciales, sino también sesiones y tokens, lo que lo convierte en una herramienta clave para simular compromisos modernos en entornos con MFA.
+Here is were OSINT techniques plays a key role, gathering information such as email structures, organizational charts, corporate language, signatures, schedules, and communication patterns. All of this directly influences the credibility of the attack.
 
-Ambas herramientas son accesibles, gratuitas y ampliamente documentadas, lo que demuestra que **no es necesario tooling exclusivo para ejecutar campañas realistas**.
+## Infrastructure and Tools
+For the campaing, I used widely known open source tools, GoPhish and Evilginx, deployed on a simple cloud infrastructure. The key to success was the **design of the domain** and the coherence of the attack, rather than the use of exclusive tooling.
 
----
+<img src="/assets/images/posts/phishing_campaing/infrastructure.png" alt="Infrastructure developed in the phishing campaing" class="my-4 rounded-lg shadow-md block mx-auto w-full max-w-2xl h-auto"/>
 
-## 3. Infraestructura desplegada
+First, I deployed two independent servers:
 
-La infraestructura se mantuvo deliberadamente simple. No se buscó alta disponibilidad ni escalabilidad, sino estabilidad y bajo perfil.
+- A server for GoPhish  
+- A server for Evilginx  
 
-Se desplegaron dos servidores independientes:
+Both running on Linux (Ubuntu 24.04), with minimal resources. It is not necessary to use specialized distributions like Kali, the cloud provider chosen was *Azure*, although you can replicate this design on AWS, GCP or any other provider. The only thing to keep in mind is the outgoing or incoming restrictions that some providers may have.
 
-- Un servidor para GoPhish  
-- Un servidor para Evilginx  
+### GoPhish
+Gophish is an open source phishing framework that allows you to create and manage phishing campaingns. It provides a web interface to design emails, landing pages and track results. It also has versions compatible with evilginx to capture session tokens.  
 
-Ambos corriendo sobre Linux (Ubuntu 24.04), con recursos mínimos. No es necesario utilizar distribuciones especializadas como Kali; el rol de estos servidores es muy concreto y no requiere tooling adicional.
+<p class="my-4 text-sm italic">
+    For this PoC, I used the fork created by kgretzky available on <a href="https://github.com/kgretzky/gophish" target="_blank">github</a> that includes some additional features for better integration with evilginx.
+</p>
 
-El proveedor cloud elegido fue **Linode (Akamai)** por simplicidad operativa, aunque este diseño es fácilmente replicable en AWS, Azure o cualquier otro proveedor. Es importante tener en cuenta que algunos proveedores bloquean tráfico SMTP saliente, por lo que este punto debe validarse antes del despliegue.
+<img src="/assets/images/posts/phishing_campaing/gophish.svg" alt="GoPhish Dashboard" class="my-4 rounded-lg shadow-md block mx-auto w-full max-w-2xl h-auto"/>
 
----
+### Evilginx
+Evilginx is a framework used for man-in-the-middle attacks, specifically designed for phishing campaings. It allows you to proxy legitimate websites and capture session tokens and credentials without the user noticing. It is especially useful for bypassing two-factor authentication (2FA).
 
-## 4. Registro del dominio y suplantación
+<p class="my-4 text-sm italic">
+    For this PoC, I used the repository available on <a href="https://github.com/kgretzky/evilginx2" target="_blank">github</a> that is a free and open source version of Evilginx.
+</p>
 
-Uno de los elementos más críticos de la operación fue el **registro del dominio**, realizado a través de **Namecheap**. La elección del dominio no es una cuestión estética ni secundaria; es uno de los factores que más influyen en la tasa de éxito del phishing.
+<img src="/assets/images/posts/phishing_campaing/Evilginx1.avif" alt="GoPhish Dashboard" class="my-4 rounded-lg shadow-md block mx-auto w-full max-w-2xl h-auto"/>
 
-En lugar de recurrir a typosquatting clásico, se optó por una estructura que explota la interpretación visual del dominio. Dominios que comienzan por cadenas como `com`, `net` u `org`, seguidas de separadores poco habituales, pueden inducir al usuario a interpretar incorrectamente la URL.
+Evilginx handles the capture of credentials and sessions. Although it requires some initial learning curve, once deployed it is relatively straightforward to operate.
 
-Un dominio del tipo:
+The key element in Evilginx are the **phishlets**, which define how the legitimate service is proxied. Although there are many public repositories, reusing phishlets without modifications increases the risk of detection. Whenever possible, it is advisable to adapt them or develop your own variants.
 
-agenciatributaria.com7g-alleta.xyz
-
-puede ser leído mentalmente como:
-
-agenciatributaria.com / g-alleta / ...
-
-
-Este efecto es especialmente potente en correos electrónicos, donde el usuario rara vez analiza la estructura real del dominio. Además, este enfoque reduce la probabilidad de detección temprana por sistemas automáticos que buscan patrones de typosquatting evidentes.
-
-El dominio no solo sirve para alojar el portal de phishing, sino que es **fundamental para el correo**. Direcciones como:
-
-notificaciones@agenciatributaria.com7g-alleta.xyz
-
-
-resultan mucho más creíbles que remitentes genéricos o dominios aleatorios. El usuario evalúa rápidamente quién parece enviar el correo, no la validez criptográfica del dominio.
+<p class="my-4 text-sm italic">
+    For this PoC, I used the phishlet for Microsoft 365 available in the <a href="https://github.com/ClintAndSiTheHackers/phish">github</a> of ClintAndSiTheHackers.
+</p>
 
 ---
 
-## 5. Servicio SMTP y envío de correos
+## Domain Registration 
 
-Para el envío de correos es imprescindible contar con un servicio SMTP funcional. Existen varias opciones: montar un servicio propio, utilizar proveedores externos como SendGrid o emplear cuentas con contraseñas de aplicación.
+In phishing operations one of the most critical elements is the **domain**, this time registered through *Namecheap*. The choice of the domain is one of the factors that most influence the success rate of phishing, so you hve to think carefully about what domain to use. 
 
-En esta PoC se optó por un **servicio SMTP externo con buena reputación**, lo que reduce problemas relacionados con listas negras, DULs y filtros corporativos. Este punto es especialmente relevante cuando el objetivo son correos empresariales, donde los controles suelen ser más estrictos.
+If you are targeting users of a specific company, it is advisable to use a domain that resembles the company's domain, but with slight variations (typosquatting). For example, if the target company is `spotify.com`, you could register domains like `sp0tify.com`, `sptify.com`,`spo7ify.com`, etc.
 
-Durante las fases de prueba, herramientas como **Mailhog** pueden resultar útiles para validar configuraciones antes de lanzar la campaña real.
+Also, instead of using common TLDs like `.com` or `.net`, you can use less common TLDs like `.xyz`, `.info` or `.online` and combine with the domain variation in order to make it more credible. For example, if your are going to impersonate the comunication department of `spotify.com`, you could register a domain like `spotify-support.info`.
 
----
+As we can see, the registered domain depends on the target and the context of the attack, so it is important to analyze the target before choosing the domain.
 
-## 6. Perfilado y diseño del ataque
+### SMTP Service
 
-Antes de enviar un solo correo, el trabajo más importante es el **perfilado**. Un phishing efectivo no comienza en GoPhish ni en Evilginx, sino en la fase de análisis del objetivo.
+The registered domain plays a crucial role in the **credibility of the phishing email**, where typosquatting techniques are specially effective, because the user quickly evaluates who seems to be sending the email, not the validity of the domain.
 
-Es fundamental entender qué tipo de acceso se busca y qué usuarios son realmente valiosos. Comprometer al CEO puede ser llamativo, pero en muchos entornos un administrador de sistemas, un usuario con acceso VPN o un buzón compartido ofrecen mucho más valor operativo.
+For sending emails, it is essential to have a functional SMTP service. There are several options: setting up your own service, using external providers like SendGrid, or using accounts with app passwords.
 
-El OSINT juega un papel clave en esta fase: estructuras de correo, organigramas, lenguaje corporativo, firmas, horarios y patrones de comunicación. Todo esto influye directamente en la credibilidad del ataque.
+In this case, we use *privateemail* from *Namecheap*, which offers a simple SMTP service associated with the registered domain. Also with a good reputation, which is essential to avoid spam filters or blacklists.
 
----
-
-## 7. Diseño del correo con GoPhish
-
-Una vez realizado el perfilado, el diseño del correo es mucho más sencillo. GoPhish permite definir perfiles de envío, plantillas y campañas de forma muy flexible.
-
-El correo debe parecer legítimo no solo en contenido, sino en forma. El uso de nombres reales de departamentos, firmas corporativas, disclaimers legales y lenguaje coherente con la organización aumenta significativamente la probabilidad de éxito.
-
-El enlace incluido en el correo debe ser discreto. Textos genéricos como “Acceder al documento” o “Revisar notificación” suelen funcionar mejor que llamadas a la acción agresivas.
+An important detail is to **configure the DNS records** of the domain correctly, including SPF, DKIM and DMARC records, to improve email deliverability and avoid being marked as spam.
 
 ---
 
-## 8. Portal de phishing con Evilginx
+## Email Design with GoPhish
 
-Evilginx se encarga de la parte más delicada de la operación: la interacción con el usuario y la captura de sesiones. La herramienta requiere cierta curva de aprendizaje inicial, pero una vez desplegada resulta relativamente sencilla de operar.
+Once we have all the infrastructure ready, it's time to design the phishing email. GoPhish allows define profiles, templates and campaigns in a very flexible way.
 
-El elemento clave en Evilginx son los **phishlets**, que definen cómo se proxifica el servicio legítimo. Aunque existen muchos repositorios públicos, reutilizar phishlets sin modificaciones aumenta el riesgo de detección. Siempre que sea posible, es recomendable adaptarlos o desarrollar variantes propias.
-
-En esta PoC se utilizó un phishlet orientado a servicios de Microsoft 365, lo que permitió capturar credenciales y tokens de sesión de forma transparente para el usuario.
+The email must seen as legitimate as possible. This involves using the correct logos, language, signatures, formatting and the link must be discreet. Generic text such as "Access the document" or "Review notification" usually work better than aggressive calls to action like "Click Here", this way we didn't raise any suspicions. 
 
 ---
 
-## 9. OPSEC y evasión
+## Execution and Monitoring
 
-Una operación de phishing no termina al lanzar la campaña. Es fundamental reducir la exposición innecesaria.
+Once everything is configured, it's time to launch the campaign. Gophish allows monitoring in real time the results of the campaign, including who opened the email, who clicked the link and who submitted credentials.
 
-Evitar reutilizar plantillas, rotar subdominios, pausar servicios cuando no están en uso y controlar el acceso por IP o User-Agent son prácticas básicas de OPSEC. Exponer portales 24/7 solo facilita el trabajo a equipos de Threat Hunting.
+Additionally, is posible to configure external notifications, such as Telegram bots, to receive real-time alerts on relevant events, with Evilginx we can see the captured credentials an sessions tokens and using a cookie editor plugin we can validate the sessions in real time.
 
-Existen proyectos como **Sneaky Gophish** que ayudan a ocultar la infraestructura frente a escaneos masivos y monitorización automática, reduciendo el ruido generado por la campaña.
-
----
-
-## 10. Ejecución y monitorización
-
-Con la campaña lanzada, GoPhish permite monitorizar aperturas, clics y envíos de credenciales, mientras que Evilginx gestiona las sesiones activas. La operación consiste principalmente en observar, validar accesos y documentar resultados.
-
-Opcionalmente, es posible integrar notificaciones externas, como bots de Telegram, para recibir alertas en tiempo real ante eventos relevantes.
+<img src="/assets/images/posts/phishing_campaing/sessions.png" alt="Evilginx Captured Session" class="my-4 rounded-lg shadow-md block mx-auto w-full max-w-2xl h-auto"/>
 
 ---
 
-## Conclusión
+## Conclusion
 
-Esta PoC demuestra que, con herramientas accesibles y una planificación adecuada, es posible simular de forma realista el comportamiento de un Initial Access Broker. El factor diferencial no es el tooling, sino el **perfilado, el diseño del dominio y la coherencia del ataque**.
+This PoC highlights the effectiveness of phishing as an initial access technique, especially when combined with careful profiling and attack design. Phishing remains effective because it exploits trust, context, and habits. Understanding this from an offensive perspective is key to improving defense and awareness.
 
-El phishing sigue siendo eficaz porque explota confianza, contexto y hábitos. Entender esto desde la perspectiva ofensiva es clave para mejorar la defensa y la concienciación.
-
-Si no se refuerza la formación de los usuarios, tarde o temprano alguien hará clic.
+In the end, the best defense against phishing is user education and awareness. So regular training and simulated phishing campaigns are essential to strengthen the human factor in cybersecurity.
 
 ---
 
-*Apoya el contenido de ciberseguridad en castellano. Compartir este artículo o contribuir a la formación es una de las mejores defensas frente a este tipo de ataques.*
+<p class="my-4 italic text-center">
+    Support cybersecurity content and share the post so more people can learn
+</p>
+

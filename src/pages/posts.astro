@@ -104,8 +104,8 @@ const postsData = JSON.stringify(allPosts);
                 <div
                   class="relative z-30 duration-300 ease-out group-hover:-translate-x-1 group-hover:-translate-y-1"
                 >
-                  <div class="flex gap-8">
-                    <div class="flex-[2]">
+                  <div class="flex flex-col md:flex-row gap-8 items-start">
+                    <div class="md:flex-[2] break-words whitespace-normal">
                       <h2 class="relative mb-4 pr-6">
                         <span
                           class="text-lg font-bold leading-tight tracking-tight sm:text-xl lg:text-2xl text-neutral-900 dark:text-neutral-100"
@@ -174,7 +174,7 @@ const postsData = JSON.stringify(allPosts);
                       </div>
                     </div>
                     <div
-                      class="relative flex-1 h-48 rounded-xl overflow-hidden flex-shrink-0"
+                      class="relative md:flex-1 h-56 md:h-48 rounded-xl overflow-hidden flex-shrink-0"
                     >
                       <img
                         src="${post.image}"
@@ -367,7 +367,7 @@ const postsData = JSON.stringify(allPosts);
 
     <main class="flex-1 relative z-10">
       <Navigation />
-      <section class="relative z-20 w-[896px] mx-auto mt-24">
+      <section class="relative z-20 max-w-4xl mx-auto mt-24 px-4 sm:px-6">
         <div class="flex justify-between items-center mb-12">
           <h2
             class="text-2xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100 sm:text-3xl lg:text-4xl"
@@ -378,7 +378,7 @@ const postsData = JSON.stringify(allPosts);
 
         <div
           id="posts-container"
-          class="flex flex-col items-stretch w-full gap-8"
+          class="flex flex-col items-stretch w-full gap-8 break-words whitespace-normal"
         >
         </div>
 
