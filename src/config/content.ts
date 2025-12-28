@@ -112,8 +112,8 @@ export const projectsContent = {
       title: "Phishing Campaign PoC",
       description:
         "A walkthrough of a phishing campaign I designed and executed using GoPhish and Evilginx, highlighting the strategies and tools used to simulate real-world attacks.",
-      image: "/assets/images/projects/cover_phish.jpg",
-      href: "/posts/phishing-campaign",
+      image: "/assets/images/projects/cover_phis.jpg",
+      href: "/posts/phishing-campaign-poc",
     },
   ],
 };

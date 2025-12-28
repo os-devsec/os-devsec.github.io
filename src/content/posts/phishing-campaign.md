@@ -4,7 +4,7 @@ description: "technique PoC of a directed phishing campaign using GoPhish and Ev
 date: "2025-10-27"
 readTime: "15 min read"
 image: "/assets/images/posts/phishing_campaing/cover.jpg"
-slug: "phishing-ops-red-teaming"
+slug: "phishing-campaign-poc"
 author: "oscar lara"
 ---
 <p class="my-4 text-sm italic text-center">
