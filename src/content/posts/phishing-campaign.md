@@ -113,7 +113,7 @@ In the end, the best defense against phishing is user education and awareness. S
 
 ---
 
-<p class="my-4 italic text-center">
+<p class="my-4 italic text-sm text-center">
     Support cybersecurity content and share the post so more people can learn
 </p>
 

@@ -133,6 +133,36 @@ if (!Content) {
           0 0,
           12px 20.78px;
       }
+
+      /* Responsive prose styling for markdown content */
+      .prose {
+        padding: 0 0.25rem;
+        box-sizing: border-box;
+      }
+
+      .prose p {
+        word-break: break-word;
+        overflow-wrap: break-word;
+        white-space: normal;
+        line-height: 1.7;
+        margin-bottom: 1rem;
+      }
+
+      .prose img,
+      .prose video,
+      .prose iframe {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 1rem auto;
+      }
+
+      /* Ensure code blocks and pre tags scroll on small screens */
+      .prose pre,
+      .prose code {
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
     </style>
   </head>
   <body class="bg-white dark:bg-neutral-900 transition-colors duration-300">
@@ -154,10 +184,10 @@ if (!Content) {
     <main class="flex-1 relative z-10">
       <Navigation />
 
-      <article class="relative z-20 w-[896px] mx-auto mt-24 mb-12 px-7 lg:px-0">
+      <article class="relative z-20 w-full max-w-3xl mx-auto mt-24 mb-12 px-4 sm:px-7 lg:px-0">
         <header class="text-center">
           <h1
-            class="text-2xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100 sm:text-3xl lg:text-4xl mb-1.5"
+            class="text-2xl font-bold tracking-tight text-primary dark:text-primary sm:text-3xl lg:text-4xl mb-1.5"
           >
             {frontmatter.title}
           </h1>
