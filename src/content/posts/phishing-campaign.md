@@ -1,5 +1,5 @@
 ---
-title: "Phishing Campaing PoC"
+title: "Phishing Campaign PoC"
 description: "technique PoC of a directed phishing campaign using GoPhish and Evilginx, aimed at obtaining initial access in a controlled environment"
 date: "2025-10-27"
 readTime: "15 min read"
@@ -19,16 +19,16 @@ In this post I will explain a project carried out at the university, where I dev
 
 ## Attack profiling and design
 
-The most important step in a phishing campaing is the analysis of the target. Understanding the organization's structure, communication patterns, and key personnel is crucial to design a credible and effective attack.
+The most important step in a phishing campaign is the analysis of the target. Understanding the organization's structure, communication patterns, and key personnel is crucial to design a credible and effective attack.
 
 Also understanding the objective of the attack is essential, compromising a high-profile user like the CEO is not always the most effective approach. Sometimes, in companies a user with less visibility but with access to systems can provide more value.
 
 Here is were OSINT techniques plays a key role, gathering information such as email structures, organizational charts, corporate language, signatures, schedules, and communication patterns. All of this directly influences the credibility of the attack.
 
 ## Infrastructure and Tools
-For the campaing, I used widely known open source tools, GoPhish and Evilginx, deployed on a simple cloud infrastructure. The key to success was the **design of the domain** and the coherence of the attack, rather than the use of exclusive tooling.
+For the campaign, I used widely known open source tools, GoPhish and Evilginx, deployed on a simple cloud infrastructure. The key to success was the **design of the domain** and the coherence of the attack, rather than the use of exclusive tooling.
 
-<img src="/assets/images/posts/phishing_campaing/infrastructure.png" alt="Infrastructure developed in the phishing campaing" class="my-4 rounded-lg shadow-md block mx-auto w-full max-w-2xl h-auto"/>
+<img src="/assets/images/posts/phishing_campaing/infrastructure.png" alt="Infrastructure developed in the phishing campaign" class="my-4 rounded-lg shadow-md block mx-auto w-full max-w-2xl h-auto"/>
 
 First, I deployed two independent servers:
 
@@ -38,7 +38,7 @@ First, I deployed two independent servers:
 Both running on Linux (Ubuntu 24.04), with minimal resources. It is not necessary to use specialized distributions like Kali, the cloud provider chosen was *Azure*, although you can replicate this design on AWS, GCP or any other provider. The only thing to keep in mind is the outgoing or incoming restrictions that some providers may have.
 
 ### GoPhish
-Gophish is an open source phishing framework that allows you to create and manage phishing campaingns. It provides a web interface to design emails, landing pages and track results. It also has versions compatible with evilginx to capture session tokens.  
+Gophish is an open source phishing framework that allows you to create and manage phishing campaigns. It provides a web interface to design emails, landing pages and track results. It also has versions compatible with evilginx to capture session tokens.  
 
 <p class="my-4 text-sm italic">
     For this PoC, I used the fork created by kgretzky available on <a href="https://github.com/kgretzky/gophish" target="_blank">github</a> that includes some additional features for better integration with evilginx.
@@ -47,7 +47,7 @@ Gophish is an open source phishing framework that allows you to create and manag
 <img src="/assets/images/posts/phishing_campaing/gophish.svg" alt="GoPhish Dashboard" class="my-4 rounded-lg shadow-md block mx-auto w-full max-w-2xl h-auto"/>
 
 ### Evilginx
-Evilginx is a framework used for man-in-the-middle attacks, specifically designed for phishing campaings. It allows you to proxy legitimate websites and capture session tokens and credentials without the user noticing. It is especially useful for bypassing two-factor authentication (2FA).
+Evilginx is a framework used for man-in-the-middle attacks, specifically designed for phishing campaigns. It allows you to proxy legitimate websites and capture session tokens and credentials without the user noticing. It is especially useful for bypassing two-factor authentication (2FA).
 
 <p class="my-4 text-sm italic">
     For this PoC, I used the repository available on <a href="https://github.com/kgretzky/evilginx2" target="_blank">github</a> that is a free and open source version of Evilginx.

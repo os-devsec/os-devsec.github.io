@@ -109,25 +109,11 @@ export const projectsContent = {
     "Here you can showcase your best work. Each project should include a brief description, the technologies used, and any notable achievements. This helps potential clients or employers understand your capabilities.",
   projects: [
     {
-      title: "Project One",
+      title: "Phishing Campaign PoC",
       description:
-        "A brief description of your first project. Explain what it does and what technologies you used.",
-      image: "/assets/images/projects/project1.jpg",
-      href: "#",
-    },
-    {
-      title: "Project Two",
-      description:
-        "Describe your second project here. Highlight the key features and your role in development.",
-      image: "/assets/images/projects/project2.jpg",
-      href: "/posts/database-design",
-    },
-    {
-      title: "Project Three",
-      description:
-        "Share details about your third project. What problems did it solve? What was the outcome?",
-      image: "/assets/images/projects/project3.png",
-      href: "#",
+        "A walkthrough of a phishing campaign I designed and executed using GoPhish and Evilginx, highlighting the strategies and tools used to simulate real-world attacks.",
+      image: "/assets/images/projects/cover_phish.jpg",
+      href: "/posts/phishing-campaign",
     },
   ],
 };
