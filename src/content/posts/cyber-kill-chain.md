@@ -60,7 +60,7 @@ In this phase, the attacker delivers the weaponized payload to the target. Commo
 - Malvertising
 - Physical means delivery (e.g., USB drives)
 
-As we see there are multiple delivery methods, being phishing one of the most common and effective ones. You can read more about it in my <a href="./phishing-campaign-poc" target="_blank">Phishing Campaign PoC</a> post.
+As we see there are multiple delivery methods, being phishing one of the most common and effective ones. You can read more about it in my <a href="../phishing-campaign-poc" target="_blank">Phishing Campaign PoC</a> post.
 
 #### Countermeasures
 - Email filtering and anti-phishing solutions
