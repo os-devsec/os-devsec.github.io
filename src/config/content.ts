@@ -31,7 +31,7 @@ export const homeContent = {
 
 export const aboutContent = {
   meta: {
-    title: "About - Your Portfolio",
+    title: "About - Oscar Lara Portfolio",
     description: "Learn more about my background, skills, and experience",
   },
   title: "About Me",
@@ -101,12 +101,12 @@ export const aboutContent = {
 
 export const projectsContent = {
   meta: {
-    title: "Projects - Your Portfolio",
-    description: "Showcase of my best work and projects",
+    title: "Cybersecurity Projects - Oscar Lara Portfolio",
+    description: "Showcase of my best work and projects of cybersecurity",
   },
-  title: "Our Projects",
+  title: "My Projects",
   description:
-    "Here you can showcase your best work. Each project should include a brief description, the technologies used, and any notable achievements. This helps potential clients or employers understand your capabilities.",
+    "Here are some of the projects I've worked on, showcasing my skills and interests in cybersecurity and system engineering.",
   projects: [
     {
       title: "Phishing Campaign PoC",
