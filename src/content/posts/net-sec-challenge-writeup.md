@@ -3,7 +3,7 @@ title: "NetSec Challenge Writeup"
 description: ""
 date: "2026-02-02"
 readTime: "10 min read"
-image: "/assets/images/posts/netsec_challenge/cover.jpg"
+image: "/assets/images/posts/netsec_challenge/cover.png"
 slug: "netsec-challenge-writeup"
 author: "oscar lara"
 ---
