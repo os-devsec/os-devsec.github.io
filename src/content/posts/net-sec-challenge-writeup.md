@@ -1,6 +1,6 @@
 ---
-title: "NetSec Challenge Writeup"
-description: ""
+title: "NetSec Challenge - TryHackMe Write-up"
+description: "A write-up of the NetSec Challenge room on TryHackMe."
 date: "2026-02-02"
 readTime: "10 min read"
 image: "/assets/images/posts/netsec_challenge/cover.png"
@@ -8,81 +8,87 @@ slug: "netsec-challenge-writeup"
 author: "oscar lara"
 ---
 
-## Description
+## Overview
 
-[NetSec Challenge](https://tryhackme.com/room/netsecchallenge) is a VIP room on TryHackMe, it is a CTF that test your network security skills adquired in the Network Security module.
+NetSec Challenge is a VIP room on TryHackMe focused on assessing practical network security skills. This CTF-style challenge is part of the Network Security module and requires enumeration, service analysis, and basic exploitation techniques to retrieve several flags.
+
+In this write-up, I walk through each task, explaining the methodology and tools used to solve the challenge.
 
 ## Task 1: Introduction
 
-In this task, we only need to start the target machine.
+The first task is straightforward: start the target machine and ensure it is reachable before beginning the enumeration process.
 
 ## Task 2: Challenge Questions
 
-### Q1: What is the highest port number being open less than 10,000?
+### Port Enumeration
 
-First, we use nmap to enumerate the target machine and find open ports.
+The first step is to enumerate all open ports on the target machine. For this, I used Nmap with a SYN scan and an increased rate to speed up the process.
 
 ```bash
 nmap -p- -sS --min-rate 5000 -Pn -n 10.80.148.26
 ```
 
-The image below shows found ports and therefore the answer to this and next questions.
-
 ![ports](/assets/images/posts/netsec_challenge/ports.png)
 
-### Q2: There is an open port outside the common 1000 ports; it is above 10,000. What is it?
+This scan reveals all open TCP ports, including those running on nonstandard port numbers.
 
-We already found the answer to this question in the previous question.
+From this output, we can immediately answer the following questions:
 
-### Q3: How many TCP ports are open?
+**Q1: What is the highest port number being open less than 10,000?**
 
-We already found the answer to this question in the previous question, we only need to count the number of open ports.
+**Q2: There is an open port outside the common 1000 ports; it is above 10,000. What is it?**
 
-### Q4: What is the flag hidden in the HTTP server header?
+**Q3: How many TCP ports are open?**
 
-Here we can take two approaches, the first one is to use curl to get the HTTP server header.
+All the required information is visible in the scan results, so we simply need to analyze and count the discovered ports.
+
+### HTTP and Service Enumeration
+
+**Q4: What is the flag hidden in the HTTP server header?**
+
+To retrieve the HTTP server headers, I used two different approaches.
+
+The first approach uses curl to request only the headers:
 
 ```bash
 curl -I http://10.80.148.26
 ```
 
-The image below shows the HTTP server header obtained.
-
 ![http_header](/assets/images/posts/netsec_challenge/http_header.png)
 
-The other approach is use the common scripts of nmap to get the HTTP server header and additional information about the other ports.
+The second approach leverages Nmap’s default scripts and version detection to gather more detailed information about all discovered services:
 
 ```bash
 nmap -p 22,80,139,445,8080,10021 -sC -sV -Pn -n 10.80.148.26
 ```
 
-The image below shows the nmap output.
-
 ![nmap_services_output](/assets/images/posts/netsec_challenge/nmap_services_output.png)
 
-### Q5: What is the flag hidden in the SSH server header?
+Both methods reveal the flag hidden in the HTTP server header, along with useful details about the other running services.
 
-If we use the common scripts of nmap on the before task, we already got the SSH server header. But other approach is to use telnet and run the following command:
+**Q5: hat is the flag hidden in the SSH server header?**
+
+Since the SSH banner was already retrieved using Nmap scripts, the flag is visible in the previous scan output. Alternatively, we can manually connect to the SSH service using `telnet` to grab the banner:
 
 ```bash
 telnet 10.80.148.26 22
 ```
 
-### Q6: We have an FTP server listening on a nonstandard port. What is the version of the FTP server?
+### FTP Service Analysis
 
-As above if we use the common scripts of nmap on the before task, we already got the FTP server version. But we can use ftp to get the FTP server version.
+**Q6: We have an FTP server listening on a nonstandard port. What is the version of the FTP server?**
+
+The FTP service is running on a nonstandard port. Again, Nmap already provides the version information, but we can also verify it by connecting directly via FTP:
 
 ```bash
 ftp 10.80.148.26 10021
 ```
 
-The image below shows the FTP server version obtained.
-
 ![ftp_version](/assets/images/posts/netsec_challenge/ftp_version.png)
 
-### Q7: We learned two usernames using social engineering: `eddie` and `quinn`. What is the flag hidden in one of these two account files and accessible via FTP?
+**Q7: We learned two usernames using social engineering: `eddie` and `quinn`. What is the flag hidden in one of these two account files and accessible via FTP?**
 
-For answering this question, we use hydra to find the password of both users.
+We are given two usernames obtained through social engineering: eddie and quinn. To find their passwords, I used `Hydra` with the rockyou.txt wordlist.
 
 ```bash
 hydra -l eddie -P /usr/share/wordlists/rockyou.txt 10.80.148.26 ftp -s 10021
@@ -95,38 +101,49 @@ hydra -l quinn -P /usr/share/wordlists/rockyou.txt 10.80.148.26 ftp -s 10021
 The image below shows the password obtained for both users.
 
 ![hydra_eddie](/assets/images/posts/netsec_challenge/hydra_eddie.png)
-![hydra_quinn](/assets/imagftp_s/posts/netsec_challenge/hydra_quinn.png)
+![hydra_quinn](/assets/images/posts/netsec_challenge/hydra_quinn.png)
 
-Now we can use ftp to get the flag hidden in one of these two account files and accessible via FTP.
+With those credentials, I logged into the FTP service and located the file containing the flag.
 
 ```bash
 ftp 10.80.148.26 10021
 ```
 
-The image below shows the file hidden in one of these two account files and accessible via FTP.
-
 ![ftp_file](/assets/images/posts/netsec_challenge/ftp_file.png)
 
-Then we can download the file and get the flag using cat.
+After downloading the file, the flag can be read directly:
 
 ```bash
 cat ftp_flag.txt
 ```
 
-### Q8: Browsing to http://MACHINE_IP:8080 displays a small challenge that will give you a flag once you solve it. What is the flag?
+### Stealth Scanning Challenge
 
-In the browser we can see the following challenge.
+**Q8: Browsing to http://MACHINE_IP:8080 displays a small challenge that will give you a flag once you solve it. What is the flag?**
+
+Browsing to http://MACHINE_IP:8080 presents a challenge that requires performing a scan while avoiding detection.
 
 ![challenge](/assets/images/posts/netsec_challenge/challenge.png)
 
-As shown above, we need to run a scan as covertly as possible to avoid detection. In order to do this, we can play with the TCP flags and try different type of scans.
+To remain as stealthy as possible, I experimented with different TCP scan types. The scan that successfully bypassed detection was a NULL scan, which sends packets without any TCP flags set.
 
 ```bash
 nmap -sN 10.80.148.26
 ```
 
-The effective one was a null scan. The image below shows the page after solving the challenge.
+Once the scan was executed, the challenge page revealed the final flag.
 
 ![challenge_solved](/assets/images/posts/netsec_challenge/challenge_solved.png)
 
-That's all for this room. I hope you enjoyed it and this writeup was helpful.
+## Final Thoughts
+
+This room is an excellent exercise in network enumeration and service analysis. It reinforces the importance of:
+
+- Full port scanning
+- Banner grabbing
+- Using multiple tools to confirm findings
+- Understanding stealth scanning techniques
+
+If you’re learning network security or preparing for entry-level pentesting roles, NetSec Challenge is definitely worth completing.
+
+Thanks for reading — I hope this write-up was helpful
