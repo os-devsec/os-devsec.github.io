@@ -1,7 +1,7 @@
 ---
 title: "Pickle Rick - TryHackMe Write-up"
 description: "A write-up of the pickle rick room on TryHackMe."
-date: "2026-02-10"
+date: "2026-02-28"
 readTime: "10 min read"
 image: "/assets/images/posts/pickle_rick/cover.png"
 slug: "pickle-rick-thm-writeup"
